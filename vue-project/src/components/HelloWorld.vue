@@ -37,8 +37,8 @@ export default {
   },
   methods: {
     subscribe() {
-      const pusher = new Pusher("API_KEY", {
-        cluster: "YOUR_CLUSTER",
+      const pusher = new Pusher("Your App Key", {
+        cluster: "Your Cluster",
         authEndpoint: 'http://localhost:8000/pusher/user-auth',
       });
       this.channel = pusher.subscribe('private-my_channel');

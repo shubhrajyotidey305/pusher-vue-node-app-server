@@ -5,10 +5,10 @@ var bodyParser = require('body-parser');
 
 
 const pusher = new Pusher({
-    appId: "APP ID",
-    key: "KEY",
-    secret: "SECRET",
-    cluster: "CLUSTER",
+    appId: "APP_ID", // Type your own app id    
+    key: "APP_KEY", // Type your own key
+    secret: "SECRET", // Type your own secret
+    cluster: "CLUSTER", // Type your own cluster
     useTLS: true
 });
 
@@ -35,12 +35,20 @@ app.post('/api/messages', async (req, res) => {
     res.json([]);
 })
 
-app.post("/pusher/user-auth", (req, res) => {    
-    const {socket_id, channel_name} = req.body
-    console.log(req.body)   
+app.post("/pusher/user-auth/", (req, res) => {    
+    const {socket_id, channel_name, username} = req.body  
+    console.log(req.body)
+    const randomString = Math.random.toString(36).slice(2).length;
+    const presenceData = {
+        user_id: randomString,
+        user_info: {
+            username
+        }
+    }
 
     try{
-        const auth = pusher.authenticate(socket_id, channel_name);
+        const auth = pusher.authenticate(socket_id, channel_name, presenceData);
+        console.log(auth)        
         res.statusCode = statusOK;
         res.send(auth);        
     }catch(error){
